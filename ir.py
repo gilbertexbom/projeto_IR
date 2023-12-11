@@ -1,15 +1,19 @@
 # Processamento do sistema
 
 def imposto(salarioBruto, dependentes, novaRegra):
+
     # Calculo do desconto por dependente
     descontoDependentes = dependentes * 189.59
 
-    if descontoDependentes < 528 and novaRegra:
-        # Desconto simplificado
-        salarioBase = salarioBruto - 528
+    if novaRegra:
+        if descontoDependentes < 528:
+            # Desconto simplificado
+            salarioBase = salarioBruto - 528
+        else:
+            salarioBase = salarioBruto - descontoDependentes
 
         # Tabela atual
-        if salarioBase < 2112:
+        if salarioBase <= 2112:
             aliquota = 0.0
             descontoFaixa = 0.0
         elif salarioBase <= 2826.65:
@@ -25,11 +29,11 @@ def imposto(salarioBruto, dependentes, novaRegra):
             aliquota = 0.275
             descontoFaixa = 884.96
     else:
-            # Desconto por dependente
+        # Desconto por dependente
         salarioBase = salarioBruto - descontoDependentes
 
         # Tabela atual
-        if salarioBase < 1903.98:
+        if salarioBase <= 1903.98:
             aliquota = 0.0
             descontoFaixa = 0.0
         elif salarioBase <= 2826.65:
