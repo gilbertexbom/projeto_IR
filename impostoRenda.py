@@ -1,4 +1,7 @@
 # Sistema para recolhimento de IR com base no salário
+import ir
+
+regraAtual = False # Por padrão o sistema calcula com a regra antiga
 
 # Apresentação
 print('\n\t\t\t -- Sistema para Recolhimento de IRPF --\n')
@@ -6,48 +9,23 @@ print('\n\t\t\t -- Sistema para Recolhimento de IRPF --\n')
 # Entradas
 salarioBruto = float(input('Informe o salário: '))
 dependentes = int(input('Informe o número de dependentes: '))
+atual = input('Rendimento recebido depois de abril/2023 (s/n)? ')
+if atual.lower() == 's':
+    regraAtual = True
 
 # Processamento
-descontoDependentes = dependentes * 189.59
-salarioBase = salarioBruto - descontoDependentes
+impostoRenda = ir.imposto(salarioBruto, dependentes, regraAtual)
 
-if salarioBase < 1903.98:
-    aliquota = 0.0
-    descontoFaixa = 0.0
-elif salarioBase <= 2826.65:
-    aliquota = 0.075
-    descontoFaixa = 142.8
-elif salarioBase <= 3751.05:
-    aliquota = 0.15
-    descontoFaixa = 354.8
-elif salarioBase <= 4664.8:
-    aliquota = 0.225
-    descontoFaixa = 636.13
-else:
-    aliquota = 0.275
-    descontoFaixa = 869.36
-
-impostoBruto = salarioBase * aliquota
-irDevido = impostoBruto - descontoFaixa
-salarioLiquido = salarioBruto - irDevido
-aliquotaEfetiva = irDevido/salarioBruto
-
+# Processamento
 print('\n\t\t\t -- Dados do IR --\n')
-print('Salário Bruto..............R$ {:.2f}'.format(salarioBruto))
-print('Núm. de dependentes.................{}'.format(dependentes))
+print('Salário Bruto..............R$ {:.2f}'.format(impostoRenda['salarioBruto']))
+print('Núm. de dependentes.................{}'.format(impostoRenda['dependentes']))
 print('-'*40)
-print('Salário Base................R$ {:.2f}'.format(salarioBase))
-print('Alíquota........................{:.2f}%'.format((aliquota*100)))
-print('IR Devido...................R$ {:.2f}'.format(irDevido))
+print('Salário Base................R$ {:.2f}'.format(impostoRenda['salarioBase']))
+print('Alíquota........................{:.2f}%'.format((impostoRenda['taxa']*100)))
+print('IR Devido....................R$ {:.2f}'.format(impostoRenda['irDevido']))
 print('-'*40)
-print('Salário Líquido.............R$ {:.2f}'.format(salarioLiquido))
-print('Alíquota Efetiva................{:.2f}%'.format((aliquotaEfetiva*100)))
+print('Salário Líquido.............R$ {:.2f}'.format(impostoRenda['salarioLiquido']))
+print('Alíquota Efetiva.................{:.2f}%'.format((impostoRenda['taxaEfetiva']*100)))
 
-
-
-
-
-
-
-
-
+#print(impostoRenda)
