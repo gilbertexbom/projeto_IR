@@ -5,8 +5,9 @@ import PySimpleGUI as psg
 import ir
 
 layout = [
-    [psg.Text('Informe o salário: '), psg.InputText('', key='salarioBruto')],
-    [psg.Text('Núm. de dependentes: '), psg.InputText('', key='numDependentes'), psg.Check('A partir de maio de 2023?', key='regraAtual')],
+    [psg.Text('Informe o salário: '), psg.InputText('', key='salarioBruto', size=17)],
+    [psg.Text('Núm. de dependentes: '), psg.InputText('', key='numDependentes', size=12)],
+    [psg.Check('A partir de maio de 2023?', key='regraAtual')],
     [psg.Button('Calcular'), psg.Button('Limpar')],
     [psg.Text('-'*50)],
     [psg.Text('', key='salarioBase')],
